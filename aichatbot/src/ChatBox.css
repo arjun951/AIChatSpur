@@ -1,0 +1,140 @@
+:root {
+  --primary-blue: #3366ff;
+  --chat-bg: #f5f7fa;
+  --page-bg: #eef1f5;
+  --text-dark: #1a1a2e;
+  --text-muted: #6b7280;
+}
+
+.chat-box {
+  width: 100%;
+  max-width: 480px;
+  height: 500px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--chat-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+}
+
+.chat-messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chat-spacer {
+  flex: 1;
+  min-height: 0;
+}
+
+.msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+}
+
+.msg-user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.msg-bot {
+  align-self: flex-start;
+}
+
+.msg-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.msg-label-icon {
+  color: var(--primary-blue);
+  font-size: 10px;
+}
+
+.msg-bubble {
+  padding: 10px 14px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.msg-bubble-user {
+  background: #fff;
+  color: var(--text-dark);
+  border-radius: 16px 16px 4px 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.msg-bubble-bot {
+  background: var(--primary-blue);
+  color: #fff;
+  border-radius: 4px 16px 16px 16px;
+  box-shadow: 0 2px 8px rgba(51, 102, 255, 0.25);
+}
+
+.msg-typing {
+  font-style: italic;
+  opacity: 0.85;
+}
+
+.chat-input {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.chat-input input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 24px;
+  font-size: 14px;
+  background: #f3f4f6;
+  outline: none;
+}
+
+.chat-input button {
+  padding: 10px 20px;
+  background: var(--primary-blue);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.chat-input input:disabled,
+.chat-input button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .chat-box {
+    max-width: 100%;
+    flex: 1;
+    min-height: 0;
+    height: auto;
+    max-height: none;
+    border-radius: 16px;
+  }
+}
