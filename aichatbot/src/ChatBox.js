@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { fetchHistory, sendMessage } from './api/chatApi';
+import { createWelcomeMessage } from './constants/welcomeMessage';
 import './ChatBox.css';
 
 const SESSION_KEY = 'ai_chat_key';
@@ -18,6 +19,11 @@ function mapApiMessage(msg) {
   return { text: msg.text, sender: msg.role };
 }
 
+function resolveMessages(apiMessages) {
+  const history = apiMessages.map(mapApiMessage);
+  return [createWelcomeMessage(), ...history];
+}
+
 function ChatBox() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -34,10 +40,10 @@ function ChatBox() {
 
     fetchHistory(sessionId)
       .then((data) => {
-        setMessages(data.messages.map(mapApiMessage));
+        setMessages(resolveMessages(data.messages));
       })
       .catch(() => {
-        setLoadError('Failed to load conversation. Please refresh the page.');
+        setMessages([createWelcomeMessage()]);
       })
       .finally(() => setIsLoading(false));
   }, []);
@@ -117,7 +123,7 @@ function ChatBox() {
             <div className="chat-spacer" aria-hidden="true" />
             {messages.map((msg, i) => (
               <div
-                key={i}
+                key={msg.id ?? i}
                 className={`msg ${msg.sender === 'user' ? 'msg-user' : 'msg-bot'}`}
               >
                 {msg.sender === 'bot' && (

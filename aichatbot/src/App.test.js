@@ -22,4 +22,5 @@ test('renders chat header and send button', async () => {
   await waitFor(() => {
     expect(screen.getByRole('button', { name: /send/i })).toBeEnabled();
   });
+  expect(screen.getByText(/Shipping & Delivery/i)).toBeInTheDocument();
 });
