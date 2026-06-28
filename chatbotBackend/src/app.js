@@ -9,7 +9,7 @@ app.use(
   cors({
     origin: [
       'http://localhost:3000',
-      'https://ai-chat-spur-bzcxc3kgq-arjun951s-projects.vercel.app',
+      'https://ai-chat-spur.vercel.app',
     ],
   })
 );
