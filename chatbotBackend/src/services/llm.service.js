@@ -2,6 +2,7 @@ import { createAgent } from 'langchain';
 import { SqliteSaver } from '@langchain/langgraph-checkpoint-sqlite';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { SYSTEM_PROMPT } from '../constants/systemPrompt.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const checkpointDbPath = path.join(__dirname, '../../data/agent-checkpoints.db');
@@ -20,7 +21,7 @@ async function getAgent() {
       agent = createAgent({
         model: 'openai:gpt-5-nano',
         tools: [],
-        systemPrompt: 'You are a friendly customer support bot',
+        systemPrompt: SYSTEM_PROMPT,
         checkpointer,
       });
 

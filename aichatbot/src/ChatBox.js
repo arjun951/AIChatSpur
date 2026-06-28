@@ -101,6 +101,7 @@ function ChatBox() {
   };
 
   const inputDisabled = isLoading || isWaiting;
+  const sendDisabled = inputDisabled || !!inputError;
 
   return (
     <div className="chat-box">
@@ -163,7 +164,7 @@ function ChatBox() {
           onKeyDown={handleKeyDown}
           disabled={inputDisabled}
         />
-        <button type="button" onClick={handleSend} disabled={inputDisabled}>
+        <button type="button" onClick={handleSend} disabled={sendDisabled}>
           Send
         </button>
       </div>
