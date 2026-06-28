@@ -128,6 +128,22 @@
   cursor: not-allowed;
 }
 
+.chat-status {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 24px 12px;
+}
+
+.chat-error {
+  text-align: center;
+  color: #dc2626;
+  font-size: 14px;
+  padding: 16px 12px;
+  background: #fef2f2;
+  border-radius: 8px;
+}
+
 @media (max-width: 480px) {
   .chat-box {
     max-width: 100%;
