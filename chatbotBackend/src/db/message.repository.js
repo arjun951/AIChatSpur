@@ -1,4 +1,4 @@
-const db = require('./index');
+import db from './index.js';
 
 const insertStmt = db.prepare(
   'INSERT INTO messages (user_id, role, content) VALUES (?, ?, ?)'
@@ -16,12 +16,10 @@ const insertPair = db.transaction((userId, userContent, botContent) => {
   insertStmt.run(userId, 'bot', botContent);
 });
 
-function insertMessagePair(userId, userContent, botContent) {
+export function insertMessagePair(userId, userContent, botContent) {
   insertPair(userId, userContent, botContent);
 }
 
-function getMessagesByUserId(userId) {
+export function getMessagesByUserId(userId) {
   return selectByUserIdStmt.all(userId);
 }
-
-module.exports = { insertMessagePair, getMessagesByUserId };

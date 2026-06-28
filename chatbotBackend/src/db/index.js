@@ -1,7 +1,7 @@
-const Database = require('better-sqlite3');
-const fs = require('fs');
-const path = require('path');
-const { dbPath } = require('../config');
+import Database from 'better-sqlite3';
+import fs from 'fs';
+import path from 'path';
+import { dbPath } from '../config/index.js';
 
 const dbDir = path.dirname(dbPath);
 fs.mkdirSync(dbDir, { recursive: true });
@@ -21,4 +21,4 @@ db.exec(`
     ON messages(user_id, sent_at);
 `);
 
-module.exports = db;
+export default db;

@@ -1,7 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const chatRoutes = require('./routes/chat.routes');
-const errorHandler = require('./middleware/errorHandler');
+import express from 'express';
+import cors from 'cors';
+import chatRoutes from './routes/chat.routes.js';
+import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
@@ -16,4 +16,4 @@ app.use('/api/chat', chatRoutes);
 
 app.use(errorHandler);
 
-module.exports = app;
+export default app;

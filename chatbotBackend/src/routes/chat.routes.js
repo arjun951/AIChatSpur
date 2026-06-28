@@ -1,13 +1,13 @@
-const express = require('express');
-const chatController = require('../controllers/chat.controller');
-const {
+import express from 'express';
+import * as chatController from '../controllers/chat.controller.js';
+import {
   validateSendMessage,
   validateHistoryQuery,
-} = require('../middleware/validateChat');
+} from '../middleware/validateChat.js';
 
 const router = express.Router();
 
 router.post('/message', validateSendMessage, chatController.sendMessage);
 router.get('/history', validateHistoryQuery, chatController.getHistory);
 
-module.exports = router;
+export default router;

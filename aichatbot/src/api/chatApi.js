@@ -17,7 +17,8 @@ export async function sendMessage(message, sessionId) {
     body: JSON.stringify({ message, sessionId }),
   });
   if (!res.ok) {
-    throw new Error('Failed to send message');
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.error || 'Failed to send message');
   }
   return res.json();
 }

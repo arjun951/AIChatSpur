@@ -144,6 +144,13 @@
   border-radius: 8px;
 }
 
+.chat-input-error {
+  color: #dc2626;
+  font-size: 12px;
+  padding: 0 12px 8px;
+  background: #fff;
+}
+
 @media (max-width: 480px) {
   .chat-box {
     max-width: 100%;

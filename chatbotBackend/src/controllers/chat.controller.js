@@ -1,16 +1,16 @@
-const chatService = require('../services/chat.service');
+import * as chatService from '../services/chat.service.js';
 
-function sendMessage(req, res, next) {
+export async function sendMessage(req, res, next) {
   try {
     const { message, sessionId } = req.body;
-    const result = chatService.processMessage(sessionId, message);
+    const result = await chatService.processMessage(sessionId, message);
     res.status(200).json(result);
   } catch (err) {
     next(err);
   }
 }
 
-function getHistory(req, res, next) {
+export function getHistory(req, res, next) {
   try {
     const { sessionId } = req.query;
     const messages = chatService.getHistory(sessionId);
@@ -19,5 +19,3 @@ function getHistory(req, res, next) {
     next(err);
   }
 }
-
-module.exports = { sendMessage, getHistory };

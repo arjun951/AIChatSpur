@@ -3,6 +3,7 @@ import { fetchHistory, sendMessage } from './api/chatApi';
 import './ChatBox.css';
 
 const SESSION_KEY = 'ai_chat_key';
+const MAX_MESSAGE_LENGTH = 1800;
 
 export function getOrCreateChatKey() {
   let key = sessionStorage.getItem(SESSION_KEY);
@@ -23,6 +24,7 @@ function ChatBox() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
   const [isWaiting, setIsWaiting] = useState(false);
+  const [inputError, setInputError] = useState(null);
   const bottomRef = useRef(null);
 
   useEffect(() => {
@@ -47,10 +49,26 @@ function ChatBox() {
     }
   }, [messages, isWaiting, isLoading]);
 
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInput(value);
+    if (value.trim().length > MAX_MESSAGE_LENGTH) {
+      setInputError('Crossed input limit');
+    } else {
+      setInputError(null);
+    }
+  };
+
   const handleSend = async () => {
     const trimmed = input.trim();
     if (!trimmed || isWaiting || isLoading) return;
 
+    if (trimmed.length > MAX_MESSAGE_LENGTH) {
+      setInputError('Crossed input limit');
+      return;
+    }
+
+    setInputError(null);
     const sessionId = getOrCreateChatKey();
     setMessages((prev) => [...prev, { text: trimmed, sender: 'user' }]);
     setInput('');
@@ -59,11 +77,17 @@ function ChatBox() {
     try {
       const { reply } = await sendMessage(trimmed, sessionId);
       setMessages((prev) => [...prev, { text: reply, sender: 'bot' }]);
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        { text: 'Something went wrong, try again', sender: 'bot' },
-      ]);
+    } catch (err) {
+      if (err.message === 'Crossed input limit') {
+        setMessages((prev) => prev.slice(0, -1));
+        setInput(trimmed);
+        setInputError('Crossed input limit');
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          { text: 'Something went wrong, try again', sender: 'bot' },
+        ]);
+      }
     } finally {
       setIsWaiting(false);
     }
@@ -135,7 +159,7 @@ function ChatBox() {
           type="text"
           placeholder="Type a message..."
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           disabled={inputDisabled}
         />
@@ -143,6 +167,9 @@ function ChatBox() {
           Send
         </button>
       </div>
+      {inputError && (
+        <div className="chat-input-error">{inputError}</div>
+      )}
     </div>
   );
 }
