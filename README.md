@@ -19,7 +19,7 @@ OPENAI_API_KEY=your_openai_api_key
 ```
 
 3. `npm run dev`
-4. Server runs at `http://localhost:5000` — verify with `GET /health`
+4. Server runs at `http://localhost:5000` (check your local port in the terminal) — verify with `GET /health`
 
 ### Frontend
 
@@ -30,8 +30,10 @@ OPENAI_API_KEY=your_openai_api_key
 REACT_APP_API_URL=http://localhost:5000
 ```
 
+Use the same host/port as your running backend (check your local port).
+
 3. `npm start`
-4. App opens at `http://localhost:3000`
+4. App opens at `http://localhost:3000` (check your local port if 3000 is in use)
 
 ## Database setup
 
@@ -104,7 +106,6 @@ flowchart LR
 - SQLite suits local dev; multi-instance production needs shared storage.
 - Long chats grow checkpoint size, increasing latency and cost.
 - No auth on sessions — anyone with a `sessionId` can read that conversation.
-- Open CORS (`app.use(cors())`) simplifies dev but is permissive in production.
 
 **If I had more time:**
 
