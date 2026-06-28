@@ -1,33 +1,23 @@
-const sessions = new Map();
-
-function addMessage(sessionId, message) {
-  if (!sessions.has(sessionId)) {
-    sessions.set(sessionId, []);
-  }
-  sessions.get(sessionId).push(message);
-}
+const messageRepository = require('../db/message.repository');
+const { countWords, formatWordCountReply } = require('../utils/wordCount');
 
 function processMessage(sessionId, message) {
-  const userEntry = {
-    role: 'user',
-    text: message,
-    createdAt: new Date().toISOString(),
-  };
-  addMessage(sessionId, userEntry);
+  const wordCount = countWords(message);
+  const reply = formatWordCountReply(wordCount);
 
-  const reply = `Your session ID: ${sessionId}`;
-  const botEntry = {
-    role: 'bot',
-    text: reply,
-    createdAt: new Date().toISOString(),
-  };
-  addMessage(sessionId, botEntry);
+  messageRepository.insertMessagePair(sessionId, message, reply);
 
   return { reply, sessionId };
 }
 
 function getHistory(sessionId) {
-  return sessions.get(sessionId) || [];
+  const rows = messageRepository.getMessagesByUserId(sessionId);
+
+  return rows.map((row) => ({
+    role: row.role,
+    text: row.content,
+    createdAt: new Date(row.sent_at + 'Z').toISOString(),
+  }));
 }
 
 module.exports = { processMessage, getHistory };
