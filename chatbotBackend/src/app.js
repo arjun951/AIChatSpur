@@ -5,14 +5,7 @@ import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
-app.use(
-  cors({
-    origin: [
-      'http://localhost:3000',
-      'https://ai-chat-spur.vercel.app',
-    ],
-  })
-);
+app.use(cors());
 app.use(express.json());
 
 app.get('/health', (req, res) => {
